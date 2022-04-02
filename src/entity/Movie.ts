@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from "type-graphql"
-import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm"
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm"
 
+import { Actor } from "./Actor"
 import { Director } from "./Director"
 import { Review } from "./Review"
 
@@ -42,8 +43,13 @@ export class Movie extends BaseEntity {
   @UpdateDateColumn({ name: "updated_at", type: "timestamp with time zone" })
   updatedAt!: Date
 
+  @Field(() => [Actor])
+  @ManyToMany(() => Actor, actor => actor.movies, { onUpdate: "NO ACTION", onDelete: "CASCADE" })
+  @JoinTable({ name: 'movie_actor', joinColumn: { name: "movie_id" }, inverseJoinColumn: { name: "actor_id" } })
+  actors!: Promise<Actor[]>
+
   @Field(() => Director, { nullable: true })
-  @ManyToOne(() => Director, director => director.movies, { nullable: true, onDelete: "SET NULL" })
+  @ManyToOne(() => Director, director => director.movies, { nullable: true, onUpdate: "NO ACTION", onDelete: "SET NULL" })
   @JoinColumn({ name: "director_id" })
   director?: Promise<Director>
 

@@ -10,7 +10,7 @@ export class AddMoviesDirectorsAndReviews1648262835204 implements MigrationInter
                 "name" text NOT NULL UNIQUE ,
                 "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
-            );
+            )
         `)
 
         await queryRunner.query(`
@@ -26,7 +26,7 @@ export class AddMoviesDirectorsAndReviews1648262835204 implements MigrationInter
                 "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
                 UNIQUE ("title", "release_year"),
                 FOREIGN KEY ("director_id") REFERENCES "director"("id") ON DELETE SET NULL ON UPDATE NO ACTION
-            );
+            )
         `)
 
         await queryRunner.query(`
@@ -38,13 +38,13 @@ export class AddMoviesDirectorsAndReviews1648262835204 implements MigrationInter
                 "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
                 "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
                 FOREIGN KEY ("movie_id") REFERENCES "movie"("id") ON DELETE CASCADE ON UPDATE NO ACTION
-            );
+            )
         `)
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE IF EXISTS "review" CASCADE;`)
-        await queryRunner.query(`DROP TABLE IF EXISTS "movie" CASCADE;`)
-        await queryRunner.query(`DROP TABLE IF EXISTS "director" CASCADE;`)
+        await queryRunner.query(`DROP TABLE IF EXISTS "review" CASCADE`)
+        await queryRunner.query(`DROP TABLE IF EXISTS "movie" CASCADE`)
+        await queryRunner.query(`DROP TABLE IF EXISTS "director" CASCADE`)
     }
 }

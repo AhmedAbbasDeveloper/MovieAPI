@@ -29,7 +29,7 @@ export class Review extends BaseEntity {
   updatedAt!: Date
 
   @Field(() => Movie)
-  @ManyToOne(() => Movie, movie => movie.reviews, { onDelete: "CASCADE" })
+  @ManyToOne(() => Movie, movie => movie.reviews, { onUpdate: "NO ACTION", onDelete: "CASCADE" })
   @JoinColumn({ name: "movie_id" })
   movie!: Promise<Movie>
 }
